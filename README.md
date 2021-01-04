@@ -14,3 +14,7 @@ git push -u origin master
 sudo apt-get install android-tools-adb android-tools-fastboot
 adb devices
 ```
+
+```
+expo install expo-location
+```
