@@ -4,16 +4,28 @@ import * as Location from "expo-location";
 import Loading from "./Loading";
 import axios from "axios";
 import API_KEY from "./api_key";
+import Weather from "./Weather";
 
 //https://openweathermap.org/
+
+// api.openweathermap.org/data/2.5/find?q=London&units=metric
+
 export default function App() {
-  const [isLoading, setLoading] = useState(true);
+  const [{ isLoading, temp }, setState] = useState({
+    isLoading: true,
+    temp: null,
+  });
 
   const getWeather = async (latitude, longitude) => {
     const { data } = await axios.get(
-      `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
+      `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`
     );
     console.log(data);
+
+    setState({
+      isLoading: false,
+      temp: data.main.temp,
+    });
   };
 
   const getLocation = async () => {
@@ -24,7 +36,8 @@ export default function App() {
       } = await Location.getCurrentPositionAsync();
       await getWeather(latitude, longitude);
       console.log(latitude, longitude);
-      setLoading(false);
+      // setState({ isLoading: false, temp });
+      // setLoading(false);
     } catch (error) {
       console.log(error);
       Alert.alert("Can't find you.", "So sad");
@@ -35,5 +48,5 @@ export default function App() {
     getLocation();
   }, []);
 
-  return !isLoading ? <Loading /> : null;
+  return isLoading ? <Loading /> : <Weather temp={Math.round(temp)} />;
 }
