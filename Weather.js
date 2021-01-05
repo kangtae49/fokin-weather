@@ -32,7 +32,10 @@ export default function Weather({ temp, condition }) {
         />
         <Text style={style.temp}>{temp}</Text>
       </View>
-      <View style={style.halfContainer}></View>
+      <View style={{ ...style.textContainer, ...style.halfContainer }}>
+        <Text style={style.title}>Title sadfsadasdfsadf sadf as</Text>
+        <Text style={style.subtitle}>Title sdfsdf aasdfasd fasfd</Text>
+      </View>
     </LinearGradient>
   );
 }
@@ -67,5 +70,17 @@ const style = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  title: {
+    color: "white",
+    fontSize: 54,
+  },
+  subtitle: {
+    color: "white",
+    fontWeight: "600",
+  },
+  textContainer: {
+    paddingHorizontal: 20,
+    alignItems: "flex-start",
   },
 });
