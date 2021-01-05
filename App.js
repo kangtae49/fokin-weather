@@ -11,20 +11,26 @@ import Weather from "./Weather";
 // api.openweathermap.org/data/2.5/find?q=London&units=metric
 
 export default function App() {
-  const [{ isLoading, temp }, setState] = useState({
+  const [{ isLoading, temp, condition }, setState] = useState({
     isLoading: true,
     temp: null,
+    condition: null,
   });
 
   const getWeather = async (latitude, longitude) => {
-    const { data } = await axios.get(
+    const {
+      data: {
+        main: { temp },
+        weather,
+      },
+    } = await axios.get(
       `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${API_KEY}`
     );
-    console.log(data);
 
     setState({
       isLoading: false,
-      temp: data.main.temp,
+      temp: temp,
+      condition: weather[0].main,
     });
   };
 
@@ -48,5 +54,9 @@ export default function App() {
     getLocation();
   }, []);
 
-  return isLoading ? <Loading /> : <Weather temp={Math.round(temp)} />;
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <Weather temp={Math.round(temp)} condition={condition} />
+  );
 }
