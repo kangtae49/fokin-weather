@@ -18,4 +18,5 @@ adb devices
 ```
 expo install expo-location
 npm install prop-types
+expo install expo-linear-gradient
 ```
